@@ -55,7 +55,7 @@ app.post('/api/activity/create', function (req, res){
 	});
 });
 
-app.post('/api/activity/', function (req, res){
+app.post('/api/activity/createRecord', function (req, res){
 	var activity = new activityAPI({});
 	activity.createUser(req.body._id, req.body.userName, req.body.events);
 });
