@@ -62,7 +62,7 @@ app.post('/api/activity/createRecord', function (req, res){
 
 app.get('/api/activity/:id', function (req, res){
 	var activity = new activityAPI({});
-	activity.get(req.params.hashcode, function (err, data){
+	activity.get(req.params.id, function (err, data){
 		if(!data){
 			res.send('404: activity not found', 404);
 		}else{
