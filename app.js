@@ -68,7 +68,7 @@ app.get('/api/activity/:id', function (req, res){
 			res.send('404: activity not found', 404);
 		}else{
 			formatted_date = data.date.toString().substr(0,25);
-			res.data(data);
+			res.json(data);
 		}
 	});
 });
