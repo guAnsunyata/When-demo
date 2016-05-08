@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<head>
+  <title>When</title>
+  <!-- import kule-lazy-full.min.css --> 
+  <link type="text/css" rel="stylesheet" href="/css/when.css" />
+
+  <!-- import materialize.css -->
+  <link rel='stylesheet' href='/css/materialize.css' />
+  <script src="/js/jquery-1.11.3.min.js"></script>
+  <script src="/js/materialize.js"></script>
+  <script src='/fullcalendar-2.4.0/lib/moment.min.js'></script>
+  <script src='/fullcalendar-2.4.0/fullcalendar.min.js'></script>
+
+  <!-- tool-tips -->
+  <link rel='stylesheet' href='/css/tooltip.css' />
+</head>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+    $('ul.tabs').tabs();
+    $('#ntab1').html('<a href="#test1"><b>1.建立活動</b></a>');
+    $("#activity_name").focus();
+    var first = true;
+
+		$("#getURL").click(function (){
+      $('#ntab2').html('<a href="#test2"><b>2.取得網址</b></a>');
+      if(first){
+			  if(document.getElementsByName('activity_name')[0].value){
+          getURL();
+          first = false;
+        }else{
+          $('#activity_name').addClass('invalid');
+        }
+      }
+		});
+    var el = document.getElementById("activity_name");
+    el.onkeypress = function(e){
+      if(first){
+        if(e.which == 13){
+          $('#ntab2').html('<a href="#test2"><b>2.取得網址</b></a>');
+          if(document.getElementsByName('activity_name')[0].value){
+            getURL();
+            first = false;
+          }else{
+            $('#activity_name').addClass('invalid');
+          }
+        }
+      }
+    }
+	});
+
+  var activity_id;
+	function getURL(){
+    var name = escapeHtml(document.getElementsByName('activity_name')[0].value);
+    $.post(/createActivity/,{'name':name}, function(res){
+      $("#getURL").addClass('disabled').html('建立完成');
+      $("#tip").css('display','none');
+      $("#url").css('display','block').html('<a style="color: #26a69a" href="section/'+res._id+'">http://guanworkshop.ddns.net/section/'+res._id+'</a>');
+      $("#ntab1").addClass("disabled");
+      $('ul.tabs').tabs('select_tab', 'test2');
+    });
+    $("#activity_name").blur();
+	}
+
+  //fb
+      // 異步初始化
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '145526349138930', // 放 fb開發者的App ID
+          xfbml      : true,
+          version    : 'v2.5'
+        });
+        checkLoginState();
+      };
+
+      // 讀取 FB js-sdk
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+
+      // 檢查FB登入狀態
+      function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+          statusChangeCallback(response);
+        });
+      }
+
+      // Callback方式取得FB資訊
+      function statusChangeCallback(response) {
+        console.log(response);
+
+        if (response.status === 'connected') { // 已登入FB並註冊完成
+          testAPI();
+          $('.fb-button').remove();
+        } else if (response.status === 'not_authorized') { // 使用者已登入FB了但未註冊When
+          $.post('/createHoster',{'id':response.id, 'name':response.name});
+          $.post('/login',{'id':response.id, 'name':response.name});
+        } else { // 未登入FB故無法取得FB註冊資訊
+          console.log('未登入');
+        }
+      }
+
+      function testAPI() { // 之後要抓使用者資料就呼叫這個method
+        FB.api('/me', function(response) {
+          $.post('/login',{'id':response.id, 'name':response.name});
+          console.log('ＩＤ：' + response.id);
+          console.log('姓名：' + response.name);
+        });
+      }
+
+</script>
+
+<!-- <div class="fb_login">
+<div
+  class="fb-like"
+  data-share="true"
+  data-width="450"
+  data-show-faces="true"
+  style="float: left;">
+</div>
+<div class="fb-button">
+ <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button> -->
+ </div>
+    <div id="status"></div>  
+</div>
+
+<div class="start-logo">
+  <br/>
+  <br/>
+  <img src="/images/when.png" width="30%" /><br/>
+  <!-- Best tool for arranging dating, meeting and party time. -->
+  用最簡易的方式找出與夥伴的共同時間！
+</div>
+<div style="margin-left: 25%; margin-right: 25%"><hr style="height: 1px;" /></div>
+
+<div class="start-tutorial">
+    <!-- <form class="col s3"> -->
+      <div class="row">
+      <div class="input-field col s4">
+      </div>
+        <div class="input-field col s3">
+          <input id="activity_name" placeholder=" " type="text" name="activity_name" class="validate">
+          <label for="activity_name" data-error="請勿空白">活動名稱</label>
+        </div>
+        <div class="input-field col s1.5">
+          <a class="waves-effect waves-light btn" id="getURL">建立活動</a>
+        </div>
+        <div class="input-field col s3">
+        </div>
+      </div>
+    <!-- </form> -->
+  
+  <span id="tip" style="line-height: 46px;">按下建立活動，馬上取得專屬網址。</span>
+  <span id="url" data-tooltip="活動建立完成，立即分享網址!" style="font-size: 32px; display: none; color: #"></span><br/>
+</div>
+
+<div class="start-body" align="center">
+<!--   <a class="waves-effect waves-light btn" style="background-color: #1e1e1e; color: #f1bb00">Get URL</a>
+  <a class="waves-effect waves-light btn" style="background-color: #f1bb00; color: #1e1e1e">Get URL</a> -->
+  <br/>
+  
+</div>
+</div>

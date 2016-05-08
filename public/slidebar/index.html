@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<meta charset="UTF-8">
+        <link type="text/css" rel="stylesheet" href="nouislider/nouislider.min.css">
+        <link type="text/css" rel="stylesheet" href="css/sliderbar.css">
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="nouislider/nouislider.min.js"></script>
+    </head>
+
+    <body>
+        <div id="weight-table">
+            <div class="table-title">參加者權重</div>
+        </div>
+    </body>
+
+    <script>
+        var userList = ["李冠德", "黃胤翔", "徐武宏"];
+        var weightTable = $("#weight-table");
+
+        sliderInit(userList, weightTable);
+
+        function sliderInit(users, table) {
+            var i = 0;
+            users.forEach(function(name) {
+                ++i;
+                table.append('<label class="slider-name">' + name + '</label><label id="slider-' + i + '-value" class="slider-value"></label><div id="slider-' + i + '" class="slider-bar" />');
+                createSlider("slider-" + i);
+            });
+        }
+        
+        function createSlider(id) {
+            var handlesSlider = document.getElementById(id);
+            var sliderValueElement = document.getElementById(id + '-value');
+
+            noUiSlider.create(handlesSlider, {
+                start: 1,
+                range: {
+                    'min': 0,
+                    'max': 2
+                },
+                step: 1,
+                connect: 'lower'
+            });
+            
+            handlesSlider.noUiSlider.on('update', function(values, handle) {
+                var res = values[handle];
+                switch (res) {
+                    case "0.00":
+                        res = "忽略";
+                        break;
+                    case "1.00":
+                        res = "標準";
+                        break;
+                    case "2.00":
+                        res = "必要";
+                        break;
+                }
+                sliderValueElement.innerHTML = res;
+            });
+        }
+    </script>
+</html>

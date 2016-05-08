@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<head>
+  <!-- import kule-lazy-full.min.css --> 
+  <link type="text/css" rel="stylesheet" href="/css/when.css" />
+
+  <!-- import fullcalendar -->
+  <link rel='stylesheet' href='/fullcalendar-2.4.0/fullcalendar.css' />
+  <script src="/js/jquery-1.11.3.min.js"></script>
+  <script src='/fullcalendar-2.4.0/lib/moment.min.js'></script>
+  <script src='/fullcalendar-2.4.0/fullcalendar.min.js'></script>
+  <script src='/fullcalendar-2.4.0/lang/zh-tw.js'></script>
+
+  <link rel='stylesheet' href='/css/materialize.css' />
+  <script src="/js/materialize.js"></script>
+
+  <link type="text/css" rel="stylesheet" href="/slidebar/css/sliderbar.css">
+
+  <script src="/js/commonTimeProccess.js"></script>
+
+</head>
+
+<!-- import core.js -->
+<!-- <script src="/js/core_datepicker.js"></script> -->
+<script type="text/javascript">
+$(document).ready(function() {
+    $('ul.tabs').tabs();
+    $("#ntab1").addClass("disabled");
+    $("#ntab2").addClass("disabled");
+    $('ul.tabs').tabs('select_tab', 'test3');
+    setTimeout(function(){
+      $("#ntab3").addClass("disabled");
+      $('ul.tabs').tabs('select_tab', 'test4');
+    },750);
+});
+</script>
+
+<html>
+<body>
+<div class="hashcode" style="display: none;">{{{activity._id}}}</div>
+<div class="row">
+<div class="col s12 m12 l3 side" style="text-align: center; padding: 0 35px 0 35px;">
+  <a href="/" style=""><img src="/images/when.png" width="70%" /></a>
+  <div id="weight-table" align="center" style="margin-top:18px; text-align: center;">
+    <div class="table-title">操作說明</div>
+    <div style="text-align: left;">
+    <b><u><span id="username">{{{userName}}}</span></u></b> 您好：<br/>
+    請在日期選擇器上，拖曳選取您有空參與該活動的時間。<br/>
+    選擇完畢後，請點擊下列按鈕送出。並立即檢視當前結果。<br/><br/>
+    <span style="color: #208abc"><b>選擇</b></span>：在日期區塊上拖曳選取。<br/>
+    <span style="color: #ffa500"><b>更動</b></span>：點選區塊進行拖曳，或使用下方按鈕進行縮短或延長。<br/>
+    <span style="color: #e2231a"><b>刪除</b></span>：點擊區塊進行刪除。<br/>
+    <div style="text-align: center;"><br/><a class="waves-effect waves-light btn" id="submit">送出時間</a></div>
+    </div>
+    <div class="error" style="color: red; font-size: 14px; margin-top: 10px; display: none;">請選擇時間!</div>
+  </div>
+</div>
+
+<div class="col s12 m12 l9">
+
+<div class="header" style="margin-top: 3%">
+</div>
+<br/>
+
+<div class="body">
+<!-- modal -->
+<div id="modal1" class="modal" style="margin-top: 0%">
+  <div class="modal-content">
+    <h4>操作方法</h4>
+    <p>以下演示「拖曳」產生時間、「拖動」移動時間、「上下拖拉」調整時間與「點擊」刪除時間</p>
+  </div>
+  <div class="slider" style="margin: 0 auto; width: 450px;">
+    <ul class="slides" style="">
+      <li>
+        <div style="text-align: center;"><img src="/images/drag.gif" /></div> <!-- random image -->
+        <div class="caption center-align">
+        </div>
+      </li>
+      <li>
+        <div style="text-align: center;"><img src="/images/move.gif" /></div> <!-- random image -->
+        <div class="caption left-align">
+        </div>
+      </li>
+      <li>
+        <div style="text-align: center;"><img src="/images/resize.gif" /></div> <!-- random image -->
+        <div class="caption right-align">
+        </div>
+      </li>
+      <li>
+        <div style="text-align: center;"><img src="/images/delete.gif" /></div> <!-- random image -->
+        <div class="caption center-align">
+        </div>
+      </li>
+    </ul>
+  </div>
+  
+  <div class="modal-footer">
+    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat" style="color: #26a69a">開始選擇</a>
+  </div>
+</div>
+
+  <div align="center" style="display: inline-block; padding-left: 12px;"><b>{{{activity.name}}}</b></div><div style="display: inline-block; float: right; color: #787878; font-size: 12px;">Create By: 
+  {{#if activity.hoster}}
+  {{activity.hoster}}
+  {{else}}
+  Anonymous
+  {{/if}}
+   |  {{{activityDate}}}
+  </div>
+  <hr/>
+  <hr/>
+  <div class="calendar" style="margin-top: 30px;"></div>
+</div>
+</div>
+
+</div>
+
+</body>
+<br/>
+<br/>
+<br/>
+</html>

@@ -1,0 +1,243 @@
+
+
+<head>
+  <meta charset="UTF-8">
+  <title>When</title>
+  <!-- import kule-lazy-full.min.css --> 
+  <link type="text/css" rel="stylesheet" href="/css/when.css" />
+
+  <!-- import fullcalendar -->
+  <link rel='stylesheet' href='/fullcalendar-2.4.0/fullcalendar.css' />
+  <script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+  <script src='/fullcalendar-2.4.0/lib/moment.min.js'></script>
+  <script src='/fullcalendar-2.4.0/fullcalendar.min.js'></script>
+
+  <link rel='stylesheet' href='/css/materialize.css' />
+  <script src="/js/materialize.js"></script>
+
+  <link type="text/css" rel="stylesheet" href="/slidebar/nouislider/nouislider.min.css">
+  <link type="text/css" rel="stylesheet" href="/slidebar/css/sliderbar.css">
+  <script src="/slidebar/nouislider/nouislider.min.js"></script>
+  <script src="/js/commonTimeProccess.js"></script>
+
+  <script src='/fullcalendar-2.4.0/lang/zh-tw.js'></script>
+
+</head>
+
+<!-- import core.js -->
+<script type="text/javascript" src="/js/core_result.js"></script>
+
+<script type="text/javascript">
+var global = this;
+ $(".button-collapse").sideNav();
+ $(document).ready(function() {
+  $('#ntab1').html('<a href="#test1"><b>1.建立活動</b></a>');
+  $('#ntab2').html('<a href="#test2"><b>2.取得網址</b></a>');
+  $('#ntab3').html('<a href="#test3"><b>3.填寫名稱</b></a>');
+  $('#ntab4').html('<a href="#test4"><b>4.選擇時間</b></a>');
+  $('#ntab5').html('<a href="#test5"><b>5.觀看分析</b></a>');
+  $('ul.tabs').tabs();
+  $("#ntab1").addClass("disabled");
+  $("#ntab2").addClass("disabled");
+  $("#ntab3").addClass("disabled");
+  $('ul.tabs').tabs('select_tab', 'test4');
+  setTimeout(function(){
+    $("#ntab4").addClass("disabled");
+    $('ul.tabs').tabs('select_tab', 'test5');
+  },750);
+
+  //remove footer
+  $(window).scroll(function(){
+    var el = document.getElementById("footer")
+    $(window).off('scroll');
+    el.remove();
+  });
+
+  //modal
+  global.opacity_set = function opacity_set(n){
+    $('.lean-overlay').css('opacity',0);
+  }
+
+ //stamp
+ $('#stamp1').click(function(){
+    $('#st1').css('display', 'block');
+    $('#st2').css('display', 'none');
+    $('#st3').css('display', 'none');
+    var RGB = ["#ffffff","#fff3e0","#ffe0b2","#ffcc80","#ffb74d","#ffa726","#ff9800","#fb8c00","#f57c00","#ef6c00","#e65100"];
+    appendRGB(RGB);
+ });
+ $('#stamp2').click(function(){
+    $('#st1').css('display', 'none');
+    $('#st2').css('display', 'block');
+    $('#st3').css('display', 'none');
+    var RGB = ["#ffffff","#ebf4f6","#d7e9ee","#c4dee6","#b0d3de","#9dc8d6","#89bdcd","#75b2c5","#62a7bd","#4e9cb5","#3b91ad","#35829b","#2f748a","#296579","#235767","#1d4856"]
+    appendRGB(RGB);
+ });
+ $('#stamp3').click(function(){
+    $('#st1').css('display', 'none');
+    $('#st2').css('display', 'none');
+    $('#st3').css('display', 'block');
+    var RGB = ["#ffffff","#f1f8e9","#dcedc8","#c5e1a5","#aed581","#9ccc65","#8bc34a","#7cb342","#689f38","#558b2f","#33691e"]
+    appendRGB(RGB);
+ });
+
+});
+
+function appendRGB(RGB){
+  global.CTP = new CommonTimeProccess(RGB);
+  var result = global.CTP.inputUser(global.userData);
+  $('.calendar').fullCalendar( 'destroy' );
+  appendCalendar(result);
+}
+
+
+</script>
+
+<html>
+<body>
+<div class="hashcode" style="display: none;">{{{activity._id}}}</div>
+<div class="row">
+<div class="col s12 m12 l3 side" style="text-align: center; padding: 0 35px 0 35px;">
+  <a href="/" style=""><img src="/images/when.png" width="100%" /></a>
+  <div id="weight-table" align="center" style="margin-top:18px; text-align: center;">
+    <div class="table-title"><b>分析結果</b></div>
+    <div>
+    右圖為分析結果，可點擊時間區塊查看詳細資訊。顏色愈深代表人數愈多。<br/>
+    <a id="stamp1" style="color: #ff9800; cursor: pointer;">● </a>
+    <a id="stamp2" style="color: #35829b; cursor: pointer;">● </a>
+    <a id="stamp3" style="color: #558b2f; cursor: pointer;">● </a>
+    <div id="st1"><img src="/images/ColorStamp - Orange.png" width="190" /></div>
+    <div id="st2" style="display: none;"><img src="/images/ColorStamp - Origin.png" width="190" /></div>
+    <div id="st3" style="display: none;"><img src="/images/ColorStamp - Green.png" width="190" /></div>
+    </div>
+    <hr style="height: 1px;">
+    <div style="text-align: left">
+    進階選項：
+    <div style="text-align: center">選擇資料的過濾方式</div>
+    <span style="color: #208abc"><b>必要</b></span>：日曆會去除沒有該人員的日期。<br/>
+    <span style="color: #e2231a"><b>忽略</b></span>：日曆上將不會該人員的資料。
+    </div>
+  </div>
+</div>
+
+<div class="col s12 m12 l9">
+
+<div class="header" style="margin-top: 3%">
+</div>
+<br/>
+
+<div class="body">
+  <div align="center" style="display: inline-block; font-size: 28px;"><b>{{{activity.name}}}</b></div><div style="display: inline-block; float: right; color: #787878; font-size: 12px;">Create By: 
+  {{#if activity.hoster}}
+  {{activity.hoster}}
+  {{else}}
+  Anonymous
+  {{/if}}
+   |  {{{activityDate}}}
+  </div>
+  <hr/>
+  <hr/>
+  <div class="calendar" style="margin-top: 30px;"></div>
+</div>
+</div>
+
+</div>
+
+<!-- modal -->
+<!-- Modal Structure -->
+  <div id="detail" class="modal bottom-sheet" style="padding-left: 50px; padding-right: 60px;">
+    <div class="modal-content">
+      <h5>可出席人員：<span id="modal-total"></span></h5>
+      <hr style="height: 1px;">
+      <b><div id="modal-user-list"></div></b>
+    </div>
+    <div class="modal-footer" style="padding-left: 26px;">
+      <div id="modal-time"><p><b>time</b></p></div>
+    </div>
+  </div>
+
+</body>
+
+<!-- slidebar.js -->
+<!-- CommonTimeProccess -->
+<script>
+var global = this;
+  $(document).ready(function() {
+      var hashcode = $('.hashcode').html();
+      $.post('/getAllUser',{_id: hashcode}, function(res){
+        //ctp
+        var userData = res;
+        global.userData = res;
+        //console.log('post',res);
+        //橘色色系["#ffffff","#fff3e0","#ffe0b2","#ffcc80","#ffb74d","#ffa726","#ff9800","#fb8c00","#f57c00","#ef6c00","#e65100"]
+        //綠色色系["#ffffff","#f1f8e9","#dcedc8","#c5e1a5","#aed581","#9ccc65","#8bc34a","#7cb342","#689f38","#558b2f","#33691e"]
+        //["#ffffff","#ebf4f6","#d7e9ee","#c4dee6","#b0d3de","#9dc8d6","#89bdcd","#75b2c5","#62a7bd","#4e9cb5","#3b91ad","#35829b","#2f748a","#296579","#235767","#1d4856"]
+        var RGB = ["#ffffff","#fff3e0","#ffe0b2","#ffcc80","#ffb74d","#ffa726","#ff9800","#fb8c00","#f57c00","#ef6c00","#e65100"];
+        global.CTP = new CommonTimeProccess(RGB);
+        var result = global.CTP.inputUser(userData);
+        appendCalendar(result);
+
+        //slider
+        var init = true;
+        var weightTable = $("#weight-table");
+        sliderInit(userData, weightTable);
+        function sliderInit(users, table) {
+            users.forEach(function(user) {
+                table.append('<label class="slider-name">' + user.userName + '</label><label id="' + user.user_id + '-value" class="slider-value"></label><div id="' + user.user_id + '" class="slider-bar" />');
+                createSlider(user.user_id);
+                listenSlider(user.user_id);
+            });
+            init = false;
+        }
+        
+        function createSlider(id) {
+            var handlesSlider = document.getElementById(id);
+            var sliderValueElement = document.getElementById(id + '-value');
+
+            noUiSlider.create(handlesSlider, {
+                start: 1,
+                range: {
+                    'min': 0,
+                    'max': 2
+                },
+                step: 1,
+                connect: 'lower'
+            });
+        };
+
+        function listenSlider(id) {
+            var handlesSlider = document.getElementById(id);
+            var sliderValueElement = document.getElementById(id + '-value');
+            handlesSlider.noUiSlider.on('update', function(values, handle) {
+              console.log('slider update');
+                  var res = values[handle];
+                  switch (res) {
+                      case "0.00":
+                          res = "忽略";
+                          break;
+                      case "1.00":
+                          res = "標準";
+                          break;
+                      case "2.00":
+                          res = "必要";
+                          break;
+                  }
+                  sliderValueElement.innerHTML = res;
+                  if(!init){
+                    //run alg and refresh calender
+                    //alert('id: '+id +'   v: '+values);
+                    console.log('call CTP :', values);
+                    var result = global.CTP.weightChange(id.toString(), parseInt(values));
+                    console.log(result);
+                    refreshCalendar(result);
+                  }
+            });
+        }
+    });
+  });
+</script>
+
+<br/>
+<br/>
+<br/>
+</html>

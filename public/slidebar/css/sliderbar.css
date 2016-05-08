@@ -1,0 +1,30 @@
+html {
+    font-family: 微軟正黑體, 蘋方-繁;
+}
+#weight-table {
+    padding: 5px 25px 20px 25px;
+    border: 1px solid rgb(200, 200, 200);
+    box-shadow: 0 0 15px rgba(245, 245, 245, 0.8);
+    overflow-y: auto;
+}
+.slider-bar {
+    margin: 5px 0 15px 0;
+    background-color: rgb(255, 200, 0);
+}
+.slider-name {
+    color: #555;
+    margin-right: 10px;
+    font-weight: 300;
+}
+.slider-value {
+    color: #888;
+    font-size: 11pt;
+    font-weight: 200;
+}
+.table-title {
+    font-size: 20pt;
+    font-weight: 300;
+    color: #555;
+    text-align: center;
+    margin: 10px 0 5px 0;
+}

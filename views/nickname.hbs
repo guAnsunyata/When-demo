@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<head>
+<title>When</title>
+  <!-- import kule-lazy-full.min.css --> 
+  <link type="text/css" rel="stylesheet" href="/css/when.css" />
+
+  <!-- import fullcalendar -->
+  <link rel='stylesheet' href='/fullcalendar-2.4.0/fullcalendar.css' />
+  <script src="/js/jquery-1.11.3.min.js"></script>
+  <script src='/fullcalendar-2.4.0/lib/moment.min.js'></script>
+  <script src='/fullcalendar-2.4.0/fullcalendar.min.js'></script>
+
+  <script src='/fullcalendar-2.4.0/lang/zh-tw.js'></script>
+  <link rel='stylesheet' href='/css/materialize.css' />
+  <script src="/js/materialize.js"></script>
+  <script src="/js/commonTimeProccess.js"></script>
+</head>
+
+<!-- import core.js -->
+<!-- <script type="text/javascript" src="/js/core_datepick.js"></script> -->
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#ntab1').html('<a href="#test1"><b>1.建立活動</b></a>');
+  $('#ntab2').html('<a href="#test2"><b>2.取得網址</b></a>');
+  $('#ntab3').html('<a href="#test3"><b>3.填寫名稱</b></a>');
+    $('ul.tabs').tabs();
+    $("#ntab1").addClass("disabled");
+    $('ul.tabs').tabs('select_tab', 'test2');
+    setTimeout(function(){
+      $("#ntab2").addClass("disabled");
+      $('ul.tabs').tabs('select_tab', 'test3');
+    },750);
+
+    $('#nextstep').click(function(){
+      if(document.getElementsByName('name')[0].value){
+        nextStep();
+      }else{
+        $('#name').addClass('invalid');
+      }
+    });
+
+    var el = document.getElementById("name");
+    el.focus();
+    el.onkeypress = function(e){
+      if(e.which == 13){
+        if(document.getElementsByName('name')[0].value){
+          nextStep();
+        }else{
+          $('#name').addClass('invalid');
+        }
+      }
+    };
+});
+
+function nextStep (){
+    var hashcode = $(".hashcode").html();
+    var url = '/form/'+hashcode;
+    var userName = escapeHtml(document.getElementsByName('name')[0].value);
+    var data = {'userName':userName};
+    $.post(url, data, function(res){
+      document.body.innerHTML = res;
+      $('#ntab1').html('<a href="#test1"><b>1.建立活動</b></a>');
+      $('#ntab2').html('<a href="#test2"><b>2.取得網址</b></a>');
+      $('#ntab3').html('<a href="#test3"><b>3.填寫名稱</b></a>');
+      $('#ntab4').html('<a href="#test4"><b>4.選擇時間</b></a>');
+      afterRendering();
+    });
+    function afterRendering(){
+      $('.slider').slider();
+      $.getScript('/js/core_datepick.js');
+      $.getScript('/js/materialize.js',function(){
+        $('ul.tabs').tabs('select_tab', 'test3');
+        $("#ntab1").addClass("disabled");
+        $("#ntab2").addClass("disabled");
+        $('ul.tabs').tabs('select_tab', 'test3');
+
+      });
+      setTimeout(function(){
+        $("#ntab3").addClass("disabled");
+        $('ul.tabs').tabs('select_tab', 'test4');
+      },750);
+      $('#modal1').openModal({in_duration: 700});
+    }
+}
+
+//remove footer
+$(window).scroll(function(){
+var el = document.getElementById("footer")
+$(window).off('scroll');
+el.remove();
+});
+
+</script>
+
+<html>
+<body>
+<div class="hashcode" style="display: none;">{{{activity._id}}}</div>
+<div class="fb_login">
+ <!-- <img src="/images/fb_login.png" width="160" /> -->
+</div>
+
+<div class="logo-wrapper" style="margin-top: 80px;">
+  <div class="logo">
+  	<a href="/"><img src="/images/when.png" width="20%" /></a>
+  	<hr/>
+  </div>
+</div>
+<br/>
+
+<div class="body-nickname">
+<div align="center" style="display: inline-block; padding-left: 12px;"><b>{{{activity.name}}}</b></div><div style="display: inline-block; float: right; color: #787878; font-size: 12px;">Create By: 
+{{#if activity.hoster}}
+{{activity.hoster}}
+{{else}}
+Anonymous
+{{/if}}
+ |  {{{activityDate}}}
+</div>
+<hr style="height: 1px;" />
+<div style="text-align: left; color: #787878; padding-left: 12px;">
+http://guanworkshop.ddns.net/section/{{{activity._id}}}
+</div>
+<br/><br/>
+      <div class="row">
+      <div class="input-field col s4">
+      </div>
+        <div class="input-field col s3">
+          <input id="name" placeholder=" " type="text" name="name" class="validate">
+          <label for="name" data-error="請勿空白" style="font-size: 10px;">輸入姓名</label>
+        </div>
+        <div class="input-field col s1.5">
+          <a class="waves-effect waves-light btn" id="nextstep">加入選擇</a>
+        </div>
+        <div class="input-field col s3">
+        </div>
+      </div>
+</div>
+
+</body>
+</html>

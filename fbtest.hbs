@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <script>
+      // 異步初始化
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '554649824691478', // 放 fb開發者的App ID
+          xfbml      : true,
+          version    : 'v2.5'
+        });
+      };
+
+      // 讀取 FB js-sdk
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+
+      // 檢查FB登入狀態
+      function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+          statusChangeCallback(response);
+        });
+      }
+
+      // Callback方式取得FB資訊
+      function statusChangeCallback(response) {
+        console.log(response);
+
+        if (response.status === 'connected') { // 已登入FB並註冊完成
+          
+          testAPI();
+
+        } else if (response.status === 'not_authorized') { // 使用者已登入FB了但未註冊When
+          
+        } else { // 未登入FB故無法取得FB註冊資訊
+          
+        }
+      }
+
+      function testAPI() { // 之後要抓使用者資料就呼叫這個method
+        FB.api('/me', function(response) {
+          console.log('ＩＤ：' + response.id);
+          console.log('姓名：' + response.name);
+        });
+      }
+    </script>
+
+    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+    <div id="status"></div>  
+
+  </body>
+</html>
