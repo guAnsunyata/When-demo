@@ -47,6 +47,32 @@ app.get('/start', function (req, res){
 	res.render('user', {layout: null});
 });
 
+//REST API for ios
+app.post('/api/activity/create', function (req, res){
+	var activity = new activityAPI({'name': req.body.name});
+	activity.create(function (err, data){
+		res.json(data);
+	});
+});
+
+app.post('/api/activity/', function (req, res){
+	var activity = new activityAPI({});
+	activity.createUser(req.body._id, req.body.userName, req.body.events);
+});
+
+app.get('/api/activity/:id', function (req, res){
+	var activity = new activityAPI({});
+	activity.get(req.params.hashcode, function (err, data){
+		if(!data){
+			res.send('404: activity not found', 404);
+		}else{
+			formatted_date = data.date.toString().substr(0,25);
+			res.data(data);
+		}
+	});
+});
+
+
 //Activity
 app.post('/createActivity', function (req, res){
 	var activity = new activityAPI({'name': req.body.name});
