@@ -24,7 +24,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 app.use(express.static(path.join(__dirname, 'public')));
 server.listen(process.env.PORT || 3000, function(){
-  console.log('listening on', http.address().port);
+  console.log('listening on', server.address().port);
 });
 //server.listen(process.env.PORT || 3000);
 //server.listen(3000);
