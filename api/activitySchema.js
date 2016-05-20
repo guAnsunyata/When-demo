@@ -12,6 +12,7 @@ var userSchema = new mongoose.Schema({
 var activitySchema = new mongoose.Schema({
 	name: String,
 	hoster: String,
+	fb_id: String,
 	users: [userSchema],
 	user_last_id_pointer: Number,
 	start: String,
