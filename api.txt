@@ -1,0 +1,41 @@
+// 一鍵建立活動
+1. POST '/api/activity/create'
+request body : 
+{}
+
+// 使用者輸入票選時間之資料
+2. POST '/api/activity/createRecord'
+request body : req.body.id, req.body.userName, req.body.events
+{
+  id: '57348f9c51baec03004cf571',
+  userName: 'Ted',
+  event: [
+    {
+      "start": "2016-05-15 08:00:00",
+      "end": "2016-05-15 10:00:00"
+    },
+    {
+      "start": "2016-05-14 08:00:00",
+      "end": "2016-05-14 12:00:00"
+    },
+    {
+      "start": "2016-05-14 03:00:00",
+      "end": "2016-05-14 06:00:00"
+    },
+    {
+      "start": "2016-05-13 08:00:00",
+      "end": "2016-05-13 12:00:00"
+    },
+    {
+      "start": "2016-05-13 03:00:00",
+      "end": "2016-05-13 06:00:00"
+    }
+  ]
+}
+
+// 觀看結果用：使用活動id查詢
+3. GET '/api/activity/:id'
+request body : 
+
+
+

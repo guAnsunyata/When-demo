@@ -9,7 +9,6 @@ var morgan = require('morgan');
 
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-var session = require('express-session');
 var flash    = require('connect-flash');
 
 var hosterAPI = require('./api/hoster');
@@ -19,8 +18,14 @@ app.use(morgan('dev')); // log every request to the console
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
-app.use(flash()); // use connect-flash for flash messages stored in session
+// Configuring Passport
+var passport = require('passport');
+var expressSession = require('express-session');
+require('./passport/passport')(passport);
+
+app.use(expressSession({secret: 'mySecretKey'}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, 'public')));
 server.listen(process.env.PORT || 3000, function(){
@@ -192,12 +197,12 @@ app.post('/getActivityByHoster', checkLogin, function(req, res) {
 	});
 });
 
-function checkLogin(req, res, next){
-	if(!req.session.hoster){
+// global function
+function checkLogin(req, res, callback){
+	if(!req.session.user)
 		res.redirect('/');
-	}else{
-		next();
-	}
+	//or Next
+	callback();
 }
 
 function checkNotLogin(req, res, next){
@@ -207,6 +212,86 @@ function checkNotLogin(req, res, next){
 		next();
 	}
 }
+
+function isLoggedIn(req, res, next) {
+	// if user is authenticated in the session, call the next() to call the next request handler 
+	// Passport adds this method to request object. A middleware is allowed to add properties to
+	// request and response objects
+	if(req.isAuthenticated()){
+		return next();
+	}
+	// if the user is not authenticated then redirect him to the login page
+	res.redirect('/');
+}
+
+var UserTest = require('./api/testUserModel');
+
+app.post('/getUserSession', isLoggedIn, function(req, res){
+	res.json(req.user.facebook);
+});
+
+app.get('/api/users', function (req, res) {
+	UserTest
+	.find()
+	.select()
+	.exec(function (err, data) {
+		res.json(data);
+	})
+});
+
+//user
+// app.get('/', function (req, res) {
+//  	res.render('index', {layout: 'layout'});
+// });
+
+// var userAPI = require('./api/user');
+// app.post('/user/signup', function (req, res){
+// 	var user = new userAPI({'name': req.body.name, 'password': req.body.password, 'email': req.body.email});
+// 	user.get(user.email, function (err, data){
+// 		if(data){
+// 			res.send('err: user exist!');
+// 		}else{
+// 			user.save(function(err, data){
+// 				req.flash('success', 'login success!');
+// 				req.session.user = data; // save to session
+// 				res.redirect('/');
+// 			});
+// 		}
+// 	});
+// });
+// app.post('/user/login', function (req, res){
+// 	var user = new userAPI({'password': req.body.password, 'email': req.body.email});
+// 	user.get(user.email, function (err, data){
+// 		if(data){
+// 			if(data.password == user.password){
+// 				req.session.user = data;
+// 				res.redirect('/');
+// 			}else{
+// 				res.redirect('/user/login');
+// 			}
+// 		}else{
+// 			res.redirect('user/login');
+// 		}
+// 	});
+// });
+// app.get('/user/db', function (req, res){
+// 	var user = new userAPI({});
+// 	user.get('', function (err, data){
+// 		res.json(data);
+// 	});
+// });
+// app.get('/user/find/:email', function (req, res){
+// 	var user = new userAPI({});
+// 	user.get(req.params.email, function (err, data){
+// 		res.json(data);
+// 	});
+// });
+
+app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}));
+
+app.get('/auth/facebook/callback', 
+  passport.authenticate('facebook', { successRedirect: '/',
+                                      failureRedirect: '/' }));
 
 
 app.get('*', function (req, res){

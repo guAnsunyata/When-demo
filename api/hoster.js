@@ -1,7 +1,7 @@
 var mongoose = require('./db');
 
 var hosterSchema = require('./hosterSchema');
-var hosterModel = mongoose.model('User', hosterSchema);
+var hosterModel = mongoose.model('User_2', hosterSchema);
 
 function Hoster(hoster) {
 	this.id = hoster.id;
