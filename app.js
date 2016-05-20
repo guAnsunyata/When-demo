@@ -183,13 +183,6 @@ app.get('/session', function(req, res){
 	res.json(req.session.hoster);
 });
 
-app.get('/profile', function(req, res) {
-	console.log(req.session.hoster);
-	res.render('user', {
-		layout : null
-    });
-});
-
 app.post('/getActivityByHoster', checkLogin, function(req, res) {
 	var activity = new activityAPI({});
 	activity.getActivityByHoster(req.session.hoster.id, function (err, data){
@@ -237,6 +230,10 @@ app.get('/api/users', function (req, res) {
 	.exec(function (err, data) {
 		res.json(data);
 	})
+});
+
+app.get('/profile', isLoggedIn, function (req, res) {
+	res.render('user', {layout: null, user: req.user});
 });
 
 //user
