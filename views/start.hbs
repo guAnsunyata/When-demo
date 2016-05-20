@@ -53,7 +53,7 @@
   var activity_id;
 	function getURL(){
     var name = escapeHtml(document.getElementsByName('activity_name')[0].value);
-    var fb_id = escapeHtml(document.getElementById('id')[0].value);
+    var fb_id = escapeHtml($('#id').html());
     $.post(/createActivity/,{'name':name, 'fb_id': fb_id}, function(res){
       $("#getURL").addClass('disabled').html('建立完成');
       $("#tip").css('display','none');
