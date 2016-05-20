@@ -46,7 +46,13 @@ io.sockets.on('connection', function(socket){
 
 //route
 app.get('/', function (req, res){
-	res.render('start', {layout: 'layout'});
+	if(req.user){
+		var id = req.user.facebook.id;
+	}else{
+		var id = 'anonymous';
+	}
+	
+	res.render('start', {layout: 'layout', id: id});
 });
 app.get('/start', function (req, res){
 	res.render('user', {layout: null});
@@ -81,7 +87,7 @@ app.get('/api/activity/:id', function (req, res){
 
 //Activity
 app.post('/createActivity', function (req, res){
-	var activity = new activityAPI({'name': req.body.name});
+	var activity = new activityAPI({'name': req.body.name, 'fb_id': req.body.fb_id});
 	activity.create(function (err, data){
 		res.json(data);
 	});

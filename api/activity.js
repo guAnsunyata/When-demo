@@ -6,13 +6,15 @@ var activityModel = mongoose.model('Activity', activitySchema);
 function Activity(activity) {
 	this.name = activity.name;
 	this.hoster = activity.hoster;
+	this.fb_id = activity.fb_id;
 }
 
 var ActivityProto = {
 	create: function(callback){
 		var activity = {
 			name: this.name,
-			user_last_id_pointer: 0
+			user_last_id_pointer: 0,
+			fb_id: this.fb_id
 		};
 		var newActivity = new activityModel(activity);
 		newActivity.save(function (err, activity){
