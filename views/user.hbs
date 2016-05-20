@@ -40,12 +40,12 @@
         <script src="/js/materialize0.97.3.min.js"></script>
     </head>
     <body>
-    <div class="userid" style="display: none">{{{userid}}}</div>
+    <div class="userid" style="display: none">{{{user.facebook.id}}}</div>
         <nav>
         <div class="nav-wrapper" style="">
           <a href="#" class="brand-logo"></a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a id="hoster" href="badges.html">李冠德</a></li>
+            <li><a id="hoster" href="badges.html">{{ user.facebook.name }}</a></li>
             <li><a id="logout" href="collapsible.html">Logout</a></li>
           </ul>
         </div>

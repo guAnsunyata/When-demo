@@ -236,6 +236,11 @@ app.get('/profile', isLoggedIn, function (req, res) {
 	res.render('user', {layout: null, user: req.user});
 });
 
+app.get('/logout', function (req, res) {
+	req.logout();
+	res.redirect('/');
+});
+
 //user
 // app.get('/', function (req, res) {
 //  	res.render('index', {layout: 'layout'});
