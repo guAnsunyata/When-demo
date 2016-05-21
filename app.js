@@ -89,7 +89,15 @@ app.get('/api/activity/:id', function (req, res){
 
 //Activity
 app.post('/createActivity', function (req, res){
-	var activity = new activityAPI({'name': req.body.name, 'fb_id': req.user.facebook.id, 'hoster': req.user.facebook.name});
+	if(req.user){
+		var userInfo = req.user.facebook;
+	}else{
+		var userInfo = {
+			id: '0',
+			name: 'Anonymous'
+		}
+	}
+	var activity = new activityAPI({'name': req.body.name, 'fb_id': userInfo.id, 'hoster': userInfo.name});
 	activity.create(function (err, data){
 		res.json(data);
 	});
@@ -101,13 +109,20 @@ app.post('/createUser', function (req, res){
 });
 
 app.get('/section/:hashcode', function (req, res){
+	if(req.user){
+		var userInfo = req.user.facebook;
+	}else{
+		var userInfo = {
+			name: 'Anonymous'
+		}
+	}
 	var activity = new activityAPI({});
 	activity.get(req.params.hashcode, function (err, data){
 		if(!data){
 			res.send('404: activity not found', 404);
 		}else{
 			formatted_date = data.date.toString().substr(0,25);
-			res.render('nickname', {layout: 'layout', activity: data, activityDate: formatted_date, user: req.user.facebook});
+			res.render('nickname', {layout: 'layout', activity: data, activityDate: formatted_date, user: userInfo});
 		}
 	});
 });
