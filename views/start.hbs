@@ -57,7 +57,7 @@
     $.post(/createActivity/,{'name':name, 'fb_id': fb_id}, function(res){
       $("#getURL").addClass('disabled').html('建立完成');
       $("#tip").css('display','none');
-      $("#url").css('display','block').html('<a style="color: #26a69a" href="section/'+res._id+'">http://https://yuntech-when.herokuapp.com/section/'+res._id+'</a>');
+      $("#url").css('display','block').html('<a style="color: #26a69a" href="section/'+res._id+'">https://yuntech-when.herokuapp.com/section/'+res._id+'</a>');
       $("#ntab1").addClass("disabled");
       $('ul.tabs').tabs('select_tab', 'test2');
     });
