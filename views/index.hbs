@@ -23,18 +23,19 @@
 <!-- import core.js -->
 <!-- <script src="/js/core_datepicker.js"></script> -->
 <script type="text/javascript">
+$('#fb_login').css('display', 'none');
 $(document).ready(function() {
-    $('ul.tabs').tabs();
     $("#ntab1").addClass("disabled");
     $("#ntab2").addClass("disabled");
     $('ul.tabs').tabs('select_tab', 'test3');
     setTimeout(function(){
       $("#ntab3").addClass("disabled");
       $('ul.tabs').tabs('select_tab', 'test4');
+      $('#fb_login').css('display', 'none');
     },750);
     var id = $('#is_login').html();
   if(id != "Anonymous"){
-    $('#fb_login .btn').css('display', 'none');
+    
     $('#fb_login #req_user').css('display', 'block');
   }else{
 
@@ -44,7 +45,6 @@ $(document).ready(function() {
 
 <html>
 <body>
-<div id="is_login" style="display: none">{{ user.name }}</div>
 <div class="hashcode" style="display: none;">{{{activity._id}}}</div>
 <div class="row">
 <div class="col s12 m12 l3 side" style="text-align: center; padding: 0 35px 0 35px;">
@@ -128,3 +128,7 @@ $(document).ready(function() {
 <br/>
 <br/>
 </html>
+
+<script type="text/javascript">
+  $('#fb_login .btn').css('display', 'none');
+</script>

@@ -44,6 +44,7 @@ $(document).ready(function() {
     el.focus();
     el.onkeypress = function(e){
       if(e.which == 13){
+        $('#fb_login').css('display', 'none');
         if(document.getElementsByName('name')[0].value){
           nextStep();
         }else{
@@ -71,6 +72,7 @@ function nextStep (){
       afterRendering();
     });
     function afterRendering(){
+      $('#fb_login').css('display', 'none');
       $('.slider').slider();
       $.getScript('/js/core_datepick.js');
       $.getScript('/js/materialize.js',function(){
