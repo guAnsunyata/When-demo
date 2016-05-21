@@ -138,8 +138,9 @@
             },
 
         ];
-        //var userid = $('.userid').html();
-        //var list = $.post('/getActivityByHoster',{id: userid});
+        var userid = $('.userid').html();
+        var list = $.post('/getActivityByHoster',{id: userid});
+        console.log(list);
 
         $(document).ready(function(){
             tableInit(list);
