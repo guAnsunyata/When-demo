@@ -139,19 +139,26 @@
 
         ];
         var userid = $('.userid').html();
-        $.post('/getActivityByHoster',{id: userid}, function(res){
+        $.post('/getActivityByHoster',{id: 10206231831774740}, function(res){
             console.log(res);
-            
-        });
-
-        $(document).ready(function(){
+            var list = res.map(function(a){
+                return {
+                    id: a._id,
+                    name: a.name,
+                    ctime: a.date
+                }
+            })
             tableInit(list);
         });
+
+        // $(document).ready(function(){
+        //     tableInit(list);
+        // });
 
         function tableInit(list) {
 
             list.forEach(function(activity) {
-                $("#manage_table").append('<li><div class="collapsible-header tooltipped" data-position="right" data-tooltip="建立於 ' + activity.ctime + '"><i class="material-icons">event</i><span class="activity_name">' + activity.name + '</span><span class="activity_id" hidden>' + activity.id + '</span></div><div class="collapsible-body"><div class="row"><div class="col right"><a class="waves-effect waves-light btn modal-trigger" data-target="modal_delete"><i class="material-icons left">delete</i>刪除</a></div><div class="col right"><a class="waves-effect waves-light btn modal-trigger" data-target="modal_rename"><i class="material-icons left">mode_edit</i>改名</a></div><div class="col right"><a onclick="goAnalysis()" class="waves-effect waves-light btn orange accent-3"><i class="material-icons left">play_arrow</i>觀看分析</a></div></div></div></div></li>');
+                $("#manage_table").append('<li><div class="collapsible-header tooltipped" data-position="right" data-tooltip="建立於 ' + activity.ctime + '"><i class="material-icons">event</i><span class="activity_name">' + activity.name + '</span><span class="activity_id" hidden>' + activity.id + '</span></div><div class="collapsible-body"><div class="row"><div class="col right"><a class="waves-effect waves-light btn modal-trigger" data-target="modal_delete"><i class="material-icons left">delete</i>刪除</a></div><div class="col right"><a class="waves-effect waves-light btn modal-trigger" data-target="modal_rename"><i class="material-icons left">mode_edit</i>改名</a></div><div class="col right"><a hreft="https://yuntech-when.herokuapp.com/result/' + activity.id + '" class="waves-effect waves-light btn orange accent-3"><i class="material-icons left">play_arrow</i>觀看分析</a></div></div></div></div></li>');
                 
                 $(".collapsible-body").last().find(".modal-trigger").leanModal();
                 $(".tooltipped").last().tooltip({delay: 50});
