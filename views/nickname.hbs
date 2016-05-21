@@ -51,6 +51,10 @@ $(document).ready(function() {
         }
       }
     };
+
+  var fb_name = $('#fb_name').html();
+  $('#name').prop('value', fb_name);
+
 });
 
 function nextStep (){
@@ -109,6 +113,7 @@ el.remove();
 <br/>
 
 <div class="body-nickname">
+<div id="fb_name" style="display: none">{{ user.name }}</div>
 <div align="center" style="display: inline-block; padding-left: 12px;"><b>{{{activity.name}}}</b></div><div style="display: inline-block; float: right; color: #787878; font-size: 12px;">Create By: 
 {{#if activity.hoster}}
 {{activity.hoster}}
@@ -119,7 +124,7 @@ Anonymous
 </div>
 <hr style="height: 1px;" />
 <div style="text-align: left; color: #787878; padding-left: 12px;">
-http://guanworkshop.ddns.net/section/{{{activity._id}}}
+https://yuntech-when.herokuapp.com/section/{{{activity._id}}}
 </div>
 <br/><br/>
       <div class="row">

@@ -209,6 +209,7 @@ app.get('/session', function(req, res){
 app.post('/getActivityByHoster', function(req, res) {
 	var activity = new activityAPI({});
 	activity.getActivityByHoster(req.body.id, function (err, data){
+		console.log(data);
 		res.json(data);
 	});
 });

@@ -79,9 +79,9 @@ var ActivityProto = {
 		});
 	},
 	getActivityByHoster: function(id, callback){
-		var query = {'hoster': id};
+		var query = {'fb_id': id};
 		activityModel.find(query, function (err, activity){
-			callback(activity);
+			callback(err, activity);
 		});
 	}
 };
