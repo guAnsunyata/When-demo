@@ -47,12 +47,14 @@ io.sockets.on('connection', function(socket){
 //route
 app.get('/', function (req, res){
 	if(req.user){
-		var id = req.user.facebook.id;
+		var userInfo = req.user.facebook;
 	}else{
-		var id = 'anonymous';
+		var userInfo = {
+			name: 'Anonymous'
+		}
 	}
 	
-	res.render('start', {layout: 'layout', id: id});
+	res.render('start', {layout: 'layout', user: userInfo});
 });
 app.get('/start', function (req, res){
 	res.render('user', {layout: null});
@@ -87,7 +89,7 @@ app.get('/api/activity/:id', function (req, res){
 
 //Activity
 app.post('/createActivity', function (req, res){
-	var activity = new activityAPI({'name': req.body.name, 'fb_id': req.body.fb_id});
+	var activity = new activityAPI({'name': req.body.name, 'fb_id': req.user.facebook.id, 'hoster': req.user.facebook.name});
 	activity.create(function (err, data){
 		res.json(data);
 	});
@@ -105,7 +107,7 @@ app.get('/section/:hashcode', function (req, res){
 			res.send('404: activity not found', 404);
 		}else{
 			formatted_date = data.date.toString().substr(0,25);
-			res.render('nickname', {layout: 'layout', activity: data, activityDate: formatted_date});
+			res.render('nickname', {layout: 'layout', activity: data, activityDate: formatted_date, user: req.user.facebook});
 		}
 	});
 });
@@ -191,7 +193,7 @@ app.get('/session', function(req, res){
 
 app.post('/getActivityByHoster', checkLogin, function(req, res) {
 	var activity = new activityAPI({});
-	activity.getActivityByHoster(req.session.hoster.id, function (err, data){
+	activity.getActivityByHoster(req.body.id, function (err, data){
 		res.json(data);
 	});
 });

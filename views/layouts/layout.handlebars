@@ -1,5 +1,9 @@
 <!DOCTYPE HTML>
-<button class="waves-effect waves-light btn" id="faceBook-btn" onclick="location.href='/auth/facebook'" >Facebook</button>
+<div id="fb_login" style="padding: 25px; text-align: right; font-size: 12px;">
+<button class="waves-effect waves-light btn" style="background-color: #2653A6" id="faceBook-btn" onclick="location.href='/auth/facebook'" >Facebook 登入</button>
+<div id="req_user" style="display: none; font-size: 14px;"><a href="/profile" style="color: #2653A6;">目前登入：{{ user.name }}</a></div>
+<div id="is_login" style="display: none">{{ user.name }}</div>
+</div>
 {{{body}}}
 <div id="footer" class="start-foot" style="font-family: 微軟正黑體, 蘋方-繁;">
  <div class="row">
@@ -32,6 +36,15 @@ function escapeHtml(text) {
 </script>
 
 <script>
+
+  var id = $('#is_login').html();
+  if(id != "Anonymous"){
+    $('#fb_login .btn').css('display', 'none');
+    $('#fb_login #req_user').css('display', 'block');
+  }else{
+    
+  }
+
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '633348193500705',

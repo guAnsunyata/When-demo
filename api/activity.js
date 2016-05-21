@@ -14,7 +14,8 @@ var ActivityProto = {
 		var activity = {
 			name: this.name,
 			user_last_id_pointer: 0,
-			fb_id: this.fb_id
+			fb_id: this.fb_id,
+			hoster: this.hoster
 		};
 		var newActivity = new activityModel(activity);
 		newActivity.save(function (err, activity){
@@ -78,7 +79,7 @@ var ActivityProto = {
 		});
 	},
 	getActivityByHoster: function(id, callback){
-		var query = {'hoster': id};
+		var query = {'fb_id': id};
 		activityModel.find(query, function (err, activity){
 			callback(activity);
 		});
