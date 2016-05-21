@@ -139,8 +139,10 @@
 
         ];
         var userid = $('.userid').html();
-        var list = $.post('/getActivityByHoster',{id: userid});
-        console.log(list);
+        $.post('/getActivityByHoster',{id: userid}, function(res){
+            console.log(res);
+            
+        });
 
         $(document).ready(function(){
             tableInit(list);
