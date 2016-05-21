@@ -1,7 +1,8 @@
 <!DOCTYPE HTML>
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <div id="fb_login" style="padding: 25px; text-align: right; font-size: 12px;">
 <button class="waves-effect waves-light btn" style="background-color: #2653A6" id="faceBook-btn" onclick="location.href='/auth/facebook'" >Facebook 登入</button>
-<div id="req_user" style="display: none; font-size: 14px;"><a href="/profile" style="color: #2653A6;">目前登入：{{ user.name }}</a></div>
+<div id="req_user" style="display: none; font-size: 18px;"><span style=""><b><a href="/profile" style="color: #2653A6;">使用者：{{ user.name }}</a></b></span><i class="material-icons" style="color: #2653A6; font-size: 18px; padding-left: 7px;">perm_contact_calendar</i></div>
 <div id="is_login" style="display: none">{{ user.name }}</div>
 </div>
 {{{body}}}
@@ -38,11 +39,11 @@ function escapeHtml(text) {
 <script>
 
   var id = $('#is_login').html();
-  if(id != "Anonymous"){
+  if(id != "nonymous"){
     $('#fb_login .btn').css('display', 'none');
     $('#fb_login #req_user').css('display', 'block');
   }else{
-    
+
   }
 
   window.fbAsyncInit = function() {
