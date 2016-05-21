@@ -191,7 +191,7 @@ app.get('/session', function(req, res){
 	res.json(req.session.hoster);
 });
 
-app.post('/getActivityByHoster', checkLogin, function(req, res) {
+app.post('/getActivityByHoster', function(req, res) {
 	var activity = new activityAPI({});
 	activity.getActivityByHoster(req.body.id, function (err, data){
 		res.json(data);
